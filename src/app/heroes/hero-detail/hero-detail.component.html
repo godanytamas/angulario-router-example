@@ -1,0 +1,7 @@
+<h2 class="text-uppercase">Hero Detail</h2>
+<ng-container *ngIf="hero$ | async as hero; else notFound" >
+  <h3>"{{ hero.name }}"</h3>
+</ng-container>
+<ng-template #notFound>
+  <p class="lead">Hero is not found</p>
+</ng-template>
