@@ -1,3 +1,4 @@
+import { AdminModule } from './admin/admin.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -21,6 +22,7 @@ import { ComposeMessageComponent } from './compose-message/compose-message.compo
     BrowserModule,
     CrisisCenterModule,
     HeroesModule,
+    AdminModule,
     AppRoutingModule
   ],
   providers: [],

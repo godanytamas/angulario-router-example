@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, Data, NavigationEnd } from '@angular/router';
+import { filter, map, mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,23 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'angular-router-example';
+
+  isAdminPage = false;
+
+  constructor(private router: Router,
+              private route: ActivatedRoute) {
+    router.events.pipe(
+      filter(event => event instanceof NavigationEnd),
+      map(() => this.route),
+      map((route: ActivatedRoute) => {
+        while (route.firstChild) {
+          route = route.firstChild;
+        }
+        return route;
+      }),
+      mergeMap((route: ActivatedRoute) => route.data)
+    ).subscribe((data: Data) => {
+      this.isAdminPage = (data['isAdmin'] !== undefined) ? data['isAdmin'] : false;
+    });
+  }
 }
