@@ -1,0 +1,8 @@
+<h3 class="text-uppercase">Crisis Detail</h3>
+<ng-container *ngIf="crisis$ | async as crisis; else notFound" >
+  <h4>"{{ crisis.name }}"</h4>
+  <button class="btn btn-light" (click)="gotoCrisis()" >Go back</button>
+</ng-container>
+<ng-template #notFound>
+  <p class="lead">Crisis is not found</p>
+</ng-template>
