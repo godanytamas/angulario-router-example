@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { AuthService } from './auth/auth.service';
+import { Component } from '@angular/core';
 import { Router, ActivatedRoute, Data, NavigationEnd } from '@angular/router';
 import { filter, map, mergeMap } from 'rxjs/operators';
 
@@ -12,10 +13,11 @@ export class AppComponent {
   isAdminPage = false;
 
   constructor(private router: Router,
-              private route: ActivatedRoute) {
-    router.events.pipe(
+              private authService: AuthService,
+              private activatedRoute: ActivatedRoute) {
+    this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
-      map(() => this.route),
+      map(() => this.activatedRoute),
       map((route: ActivatedRoute) => {
         while (route.firstChild) {
           route = route.firstChild;
@@ -24,7 +26,8 @@ export class AppComponent {
       }),
       mergeMap((route: ActivatedRoute) => route.data)
     ).subscribe((data: Data) => {
-      this.isAdminPage = (data['isAdmin'] !== undefined) ? data['isAdmin'] : false;
+      this.isAdminPage = (data.isAdmin !== undefined) ? data.isAdmin : false;
     });
   }
+
 }
