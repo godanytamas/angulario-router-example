@@ -15,7 +15,6 @@ import { LoginComponent } from './auth/login/login.component';
 import { AuthService } from './auth/auth.service';
 
 import { AuthModule } from './auth/auth.module';
-import { AdminModule } from './admin/admin.module';
 
 @NgModule({
   declarations: [
@@ -28,7 +27,6 @@ import { AdminModule } from './admin/admin.module';
     BrowserModule,
     CrisisCenterModule,
     HeroesModule,
-    AdminModule,
     AuthModule,
     AppRoutingModule
   ],
