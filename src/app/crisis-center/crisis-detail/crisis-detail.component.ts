@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { DialogService } from './../../dialog.service';
+import { CanComponentDeactivate } from './../../can-deactivate.guard';
+import { Component, OnInit, Input } from '@angular/core';
+import { ActivatedRoute, ParamMap, Router, Params } from '@angular/router';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
@@ -11,28 +13,47 @@ import { Crisis } from '../crisis';
   templateUrl: './crisis-detail.component.html',
   styleUrls: ['./crisis-detail.component.css']
 })
-export class CrisisDetailComponent implements OnInit {
+export class CrisisDetailComponent implements OnInit, CanComponentDeactivate {
 
-  crisis$: Observable<Crisis>;
+  // crisis$: Observable<Crisis>;
+  crisis: Crisis;
   crisisId: number;
+  editName: string;
 
   constructor(private crisisService: CrisisService,
               private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private dialogService: DialogService) { }
 
   ngOnInit() {
-    this.crisis$ = this.route.paramMap.pipe(
-      switchMap(
-        (params: ParamMap) => {
-          this.crisisId = +params.get('id');
-          return this.crisisService.getCrisis(this.crisisId);
-        }
-      )
+    this.route.data.subscribe(
+      (data: { crisis: Crisis }) => {
+        this.editName = data.crisis.name;
+        this.crisisId = data.crisis.id;
+        this.crisis = data.crisis;
+      }
     );
+  }
+
+  onSave() {
+    this.crisis.name = this.editName;
+    this.gotoCrisis();
+  }
+
+  onCancel() {
+    this.gotoCrisis();
   }
 
   gotoCrisis() {
     this.router.navigate(['../', { id: this.crisisId, foo: 'foo' }], { relativeTo: this.route });
+  }
+
+  canDeactivate(): Observable<boolean> | boolean {
+    if (!this.crisis || this.crisis.name === this.editName) {
+      return true;
+    }
+
+    return this.dialogService.confirm('Do you want to discard changes?');
   }
 
 }

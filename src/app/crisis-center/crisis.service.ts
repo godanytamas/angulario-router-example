@@ -1,3 +1,4 @@
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
@@ -21,10 +22,14 @@ export class CrisisService {
   }
 
   getCrisis(id: number): Observable<Crisis> {
-    return of(
-      CRISES.filter(
-        (crisis: Crisis) => crisis.id === id
-      )[0]
+    return this.getCrises().pipe(
+      map(crises => crises.find(crisis => crisis.id === +id))
     );
   }
+
+  // getCrisis(id: number): Crisis {
+  //   return CRISES.filter(
+  //     (crisis: Crisis) => crisis.id === id
+  //   )[0];
+  // }
 }

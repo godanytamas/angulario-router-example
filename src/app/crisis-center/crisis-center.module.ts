@@ -1,3 +1,4 @@
+import { FormsModule } from '@angular/forms';
 import { CrisisService } from './crisis.service';
 import { CrisisListComponent } from './crisis-list/crisis-list.component';
 import { NgModule } from '@angular/core';
@@ -16,6 +17,7 @@ import { CrisisCenterHomeComponent } from './crisis-center-home/crisis-center-ho
     CrisisCenterHomeComponent
   ],
   imports: [
+    FormsModule,
     CommonModule,
     CrisisCenterRoutingModule
   ],

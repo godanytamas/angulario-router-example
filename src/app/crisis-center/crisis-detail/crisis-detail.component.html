@@ -1,7 +1,13 @@
 <h3 class="text-uppercase">Crisis Detail</h3>
-<ng-container *ngIf="crisis$ | async as crisis; else notFound" >
+<ng-container *ngIf="crisis ; else notFound" >
   <h4>"{{ crisis.name }}"</h4>
-  <button class="btn btn-light" (click)="gotoCrisis()" >Go back</button>
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" class="form-control" [(ngModel)]="editName">
+  </div>
+  <button class="btn btn-light mr-1" (click)="gotoCrisis()" >Go back</button>
+  <button class="btn btn-light mr-1" (click)="gotoCrisis()" >Cancel</button>
+  <button class="btn btn-primary" (click)="gotoCrisis()" >Save</button>
 </ng-container>
 <ng-template #notFound>
   <p class="lead">Crisis is not found</p>
