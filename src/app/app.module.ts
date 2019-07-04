@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
@@ -15,6 +16,7 @@ import { LoginComponent } from './auth/login/login.component';
 
 import { AuthService } from './auth/auth.service';
 import { SelectivePreloadingStrategyService } from './selective-preloading-strategy.service';
+import { Route } from '@angular/compiler/src/core';
 
 
 @NgModule({
@@ -36,4 +38,10 @@ import { SelectivePreloadingStrategyService } from './selective-preloading-strat
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(router: Router) {
+    const replacer = (key, value) => (typeof value === 'function') ? value.name : value;
+
+    console.log('Routes: ', JSON.stringify(router.config, replacer, 2));
+  }
+}
