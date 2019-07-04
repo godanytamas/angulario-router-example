@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SelectivePreloadingStrategyService } from 'src/app/selective-preloading-strategy.service';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -7,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminDashboardComponent implements OnInit {
 
-  constructor() { }
+  modules: string[];
+
+  constructor(private preloadStrategy: SelectivePreloadingStrategyService) {
+    this.modules = this.preloadStrategy.preloadModules;
+  }
 
   ngOnInit() {
   }
